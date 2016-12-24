@@ -1,6 +1,6 @@
 var oFirstDialog;
 
-function operFirstDialog(){
+function openFirstDialog(){
 	if(oFirstDialog){
 		oFirstDialog.open();
 	} else {
@@ -10,7 +10,7 @@ function operFirstDialog(){
 			title: "Country Details",
 			modal: true,
 			content: [
-				new sap.ui.layout.SimpleForm({
+				new sap.ui.layout.form.SimpleForm({
             		content: [
             			new sap.m.Title({ 
             				text: "Country Name" 
