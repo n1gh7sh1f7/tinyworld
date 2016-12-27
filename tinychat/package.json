@@ -1,0 +1,15 @@
+{
+	"dependencies": {
+		"express": "4.12.3",
+		"ws": "0.8.0"
+	},
+	"description": "",
+	"devDependencies": {},
+	"files": [],
+	"main": "server.js",
+	"name": "tinychat",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"version": "1.0.0"
+}

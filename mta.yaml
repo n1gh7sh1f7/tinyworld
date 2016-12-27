@@ -20,6 +20,16 @@ modules:
      - name: tinyjs_api
        properties:
          service_url: ${default-url}
+
+ - name: tinychat
+   type: nodejs
+   path: tinychat
+   requires:
+    - name: tiny_uaa
+   provides:
+    - name: tinychat_api
+      properties:
+        service_url: ${default-url}
      
  - name: tinyui
    type: html5
@@ -30,6 +40,12 @@ modules:
       group: destinations
       properties:
         name: tinyjs_be
+        url: ~{service_url}
+        forwardAuthToken: true
+    - name: tinychat_api
+      group: destinations
+      properties:
+        name: tinychat_be
         url: ~{service_url}
         forwardAuthToken: true
 

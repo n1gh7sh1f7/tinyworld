@@ -30,7 +30,7 @@ sap.ui.define([
 
 			this.getView().byId("chatInfo").setModel(oModel);
 
-			var connection = new sap.ui.core.ws.WebSocket('ws://hxehost:64080');
+			var connection = new sap.ui.core.ws.WebSocket('wss://hxehost:64080');
 
 			// connection opened 
 			connection.attachOpen(function(oControlEvent) {
