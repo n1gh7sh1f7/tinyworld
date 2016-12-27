@@ -5,7 +5,7 @@
 			<Page id="page-countries" title="Countries">
 				<content>
 					<Panel>
-						<Table id="countriesTable" items="{/countries}">
+						<Table id="countriesTable" items="{/countries}" itemPress="onCountriesItemPress">
 							<headerToolbar>
 								<Toolbar>
 									<Button text="Add country" press="addCountry"/>
@@ -20,20 +20,20 @@
 								</Column>
 							</columns>
 							<items>
-								<ColumnListItem>
+								<ColumnListItem type="Active">
 									<cells>
-										<Text text="{name}"/>
-										<Text text="{partof_continent}"/>
+										<Text text="{name}" class="countryName"/>
+										<Text text="{partof_continent}" class="continentName"/>
 									</cells>
 								</ColumnListItem>
 							</items>
 						</Table>
 					</Panel>
-					<Panel>
-						<TextArea id="chatInfo" class="chatInfo" rows="10" editable="false" width="100%" value="{/chat}"/>
-						<Input id="chatMsg" width="30%" />
-						<Button id="sendBtn" text="Send"/>
-					</Panel>
+					<!--<Panel>-->
+					<!--	<TextArea id="chatInfo" class="chatInfo" rows="10" editable="false" width="100%" value="{/chat}"/>-->
+					<!--	<Input id="chatMsg" width="30%" />-->
+					<!--	<Button id="sendBtn" text="Send"/>-->
+					<!--</Panel>-->
 					<Dialog id="addCountryDialog">
 						<content>
 							<Input id="dialogCountryName" placeholder="country name"/>
@@ -48,6 +48,14 @@
 							<Button text="Cancel" press="dialogCancel"/>
 						</buttons>
 					</Dialog>
+				</content>
+			</Page>
+			<Page id="page-country-detail" showNavButton="true" navButtonPress="onDetailBack">
+				<content>
+					<Panel>
+						<Text text="{name}"/>
+						<Text text="{partof_continent}"/>
+					</Panel>
 				</content>
 			</Page>
 		</pages>

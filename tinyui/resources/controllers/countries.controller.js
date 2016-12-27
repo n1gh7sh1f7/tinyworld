@@ -1,8 +1,9 @@
 sap.ui.define([
 	'jquery.sap.global',
 	'sap/ui/core/mvc/Controller',
-	'sap/ui/model/odata/ODataModel'
-], function(jQuery, Controller, ODataModel) {
+	'sap/ui/model/odata/ODataModel',
+	'sap/ui/model/json/JSONModel'
+], function(jQuery, Controller, ODataModel, JSONModel) {
 	"use strict";
 
 	return Controller.extend("res.controllers.countries", {
@@ -10,6 +11,8 @@ sap.ui.define([
 			this.countriesModel = new ODataModel("/countries.xsodata", true);
 
 			this.continentsModel = new ODataModel("/continents.xsodata", true);
+			
+			this.countryDetailModel = new JSONModel();
 		},
 		onAfterRendering: function() {
 			this.countriesModel.refresh();
@@ -18,81 +21,81 @@ sap.ui.define([
 
 			oTable.setModel(this.countriesModel);
 
-			var oModel = new sap.ui.model.json.JSONModel(),
-				names = ['Holger', 'Volker', 'Jörg', 'Klaudia', 'Dirk', 'Thomas'],
-				oMsg = this.getView().byId("chatMsg"),
-				oSend = this.getView().byId("sendBtn");
+			// var oModel = new sap.ui.model.json.JSONModel(),
+			// 	names = ['Holger', 'Volker', 'Jörg', 'Klaudia', 'Dirk', 'Thomas'],
+			// 	oMsg = this.getView().byId("chatMsg"),
+			// 	oSend = this.getView().byId("sendBtn");
 
-			oModel.setData({
-				user: names[Math.floor(names.length * Math.random())],
-				chat: ""
-			});
+			// oModel.setData({
+			// 	user: names[Math.floor(names.length * Math.random())],
+			// 	chat: ""
+			// });
 
-			this.getView().byId("chatInfo").setModel(oModel);
+			// this.getView().byId("chatInfo").setModel(oModel);
 
-			var connection = new sap.ui.core.ws.WebSocket('wss://hxehost:64080');
+			// var connection = new sap.ui.core.ws.WebSocket('wss://hxehost:64080');
 
-			// connection opened 
-			connection.attachOpen(function(oControlEvent) {
-				notify("onOpen", "connection opened", "success");
-			});
+			// // connection opened 
+			// connection.attachOpen(function(oControlEvent) {
+			// 	notify("onOpen", "connection opened", "success");
+			// });
 
-			// server messages
-			connection.attachMessage(function(oControlEvent) {
-				var data = jQuery.parseJSON(oControlEvent.getParameter('data')),
-					msg = data.user + ': ' + data.text,
-					lastInfo = oModel.oData.chat;
+			// // server messages
+			// connection.attachMessage(function(oControlEvent) {
+			// 	var data = jQuery.parseJSON(oControlEvent.getParameter('data')),
+			// 		msg = data.user + ': ' + data.text,
+			// 		lastInfo = oModel.oData.chat;
 
-				if (lastInfo.length > 0){ lastInfo += "\r\n"; }
-				oModel.setData({
-					chat: lastInfo + msg
-				}, true);
+			// 	if (lastInfo.length > 0){ lastInfo += "\r\n"; }
+			// 	oModel.setData({
+			// 		chat: lastInfo + msg
+			// 	}, true);
 
-				// scroll to textarea bottom to show new messages
-				$('.chatInfo').scrollTop($('.chatInfo')[0].scrollHeight);
+			// 	// scroll to textarea bottom to show new messages
+			// 	$('.chatInfo').scrollTop($('.chatInfo')[0].scrollHeight);
 
-				notify('onMessage', msg, 'information');
-			});
+			// 	notify('onMessage', msg, 'information');
+			// });
 
-			// error handling
-			connection.attachError(function(oControlEvent) {
-				notify('onError', 'Websocket connection error', 'error');
-			});
+			// // error handling
+			// connection.attachError(function(oControlEvent) {
+			// 	notify('onError', 'Websocket connection error', 'error');
+			// });
 
-			// onConnectionClose
-			connection.attachClose(function(oControlEvent) {
-				notify('onClose', 'Websocket connection closed', 'warning');
-			});
+			// // onConnectionClose
+			// connection.attachClose(function(oControlEvent) {
+			// 	notify('onClose', 'Websocket connection closed', 'warning');
+			// });
 
-			// send message
-			var sendMsg = function() {
-				var msg = oMsg.getValue();
-				if (msg.length > 0) {
-					connection.send(JSON.stringify({
-						user: oModel.oData.user,
-						text: msg
-					}));
-					notify('sendMessage', msg, 'alert');
-					oMsg.setValue(); // reset textfield
-					oMsg.focus(); // focus field
-				}
-			};
+			// // send message
+			// var sendMsg = function() {
+			// 	var msg = oMsg.getValue();
+			// 	if (msg.length > 0) {
+			// 		connection.send(JSON.stringify({
+			// 			user: oModel.oData.user,
+			// 			text: msg
+			// 		}));
+			// 		notify('sendMessage', msg, 'alert');
+			// 		oMsg.setValue(); // reset textfield
+			// 		oMsg.focus(); // focus field
+			// 	}
+			// };
 
-			// notifier 
-			function notify(title, text, type) {
-				type = type || "information";
-				// [alert|success|error|warning|information|confirm]  
-				noty({
-					text: text,
-					template: '<div class="noty_message"><b>' + title +
-						':</b>&nbsp;<span class="noty_text"></span><div class="noty_close"></div></div>',
-					layout: "topRight",
-					type: type,
-					timeout: 4000
-				});
-			}
+			// // notifier 
+			// function notify(title, text, type) {
+			// 	type = type || "information";
+			// 	// [alert|success|error|warning|information|confirm]  
+			// 	noty({
+			// 		text: text,
+			// 		template: '<div class="noty_message"><b>' + title +
+			// 			':</b>&nbsp;<span class="noty_text"></span><div class="noty_close"></div></div>',
+			// 		layout: "topRight",
+			// 		type: type,
+			// 		timeout: 4000
+			// 	});
+			// }
 			
-			oSend.attachPress(function(){ sendMsg(); });
+			// oSend.attachPress(function(){ sendMsg(); });
 		},
 		addCountry: function() {
 			var oDialog = this.getView().byId("addCountryDialog");
@@ -142,6 +145,23 @@ sap.ui.define([
 			this.getView().byId("addCountryDialog").close();
 			this.getView().byId("dialogCountryName").setValue("");
 			this.getView().byId("dialogContinents").getSelectedKey("");
+		},
+		onCountriesItemPress: function(oEvent){
+			var item = oEvent.getParameter("listItem");
+			
+			var countryName = item.$().find(".countryName").first().text();
+			var continentName = item.$().find(".continentName").first().text();
+			
+			var json = {
+				name: countryName,
+				partof_continent: continentName
+			};
+			
+			this.countryDetailModel.setData(json);
+			
+			this.getView().byId("page-country-detail").setModel(this.countryDetailModel);
+			
+			this.byId("tinyworld-app").to("page-country-detail");
 		}
 	});
 });
