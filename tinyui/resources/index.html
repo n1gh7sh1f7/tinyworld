@@ -8,36 +8,53 @@
 			src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
 			id="sap-ui-bootstrap"
 			data-sap-ui-libs="sap.m, sap.ui.commons, sap.ui.table"
-			data-sap-ui-theme="sap_bluecrystal"
+            data-sap-ui-theme="sap_belize"
+            data-sap-ui-language="en"
+            data-sap-ui-resourceroots='{"res": "./"}'
 		></script>
-		<script src="./Util.js"></script>
+		
+		<script src="libs/jquery.noty.packaged.min.js" type="text/javascript"></script>
+		
 		<script>
-			var oModel = new sap.ui.model.odata.ODataModel("/euro.xsodata", true);
+
+			$(function() {
+				// one time fetch of CSRF token
+				$.ajax({
+					type: "GET",
+					url: "/",
+					headers: {
+						"X-Csrf-Token": "Fetch"
+					},
+					success: function(res, status, xhr) {
+						var sHeaderCsrfToken = "X-Csrf-Token";
 			
-			var oTable = new sap.ui.table.Table({
-				title: "European Countries",
-				width: "30%",
-				id: "tinytab",
-				toolbar: new sap.ui.commons.Toolbar({
-					items: [
-						new sap.ui.commons.Button({
-							text: "Add country",
-							press: openFirstDialog
-						})
-					]
-				})
+						var sCsrfToken = xhr.getResponseHeader(sHeaderCsrfToken);
+			
+						// for POST, PUT, and DELETE requests, add the CSRF token to the header
+						$(document).ajaxSend(function(event, jqxhr, settings) {
+							if (settings.type === "POST" || settings.type === "PUT" || settings.type === "DELETE") {
+								jqxhr.setRequestHeader(sHeaderCsrfToken, sCsrfToken);
+							}
+						});
+					}
+				});
 			});
 			
-			oTable.addColumn(
-				new sap.ui.table.Column({
-					label: "Country Name", 
-					template: "name"
-				})
-			);
-			
-			oTable.setModel(oModel);
-			oTable.bindRows("/euro");
-			oTable.placeAt("content");
+			$(function(){
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-core');
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-widget');
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-mouse');
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-sortable');
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-droppable');
+                $.sap.require('sap.ui.thirdparty.jqueryui.jquery-ui-draggable');
+                jQuery.sap.require("sap.ui.core.ws.WebSocket");
+
+                sap.ui.getCore().attachInit(function () {
+                    sap.ui.xmlview({
+                        viewName: "res.views.countries"
+                    }).placeAt("content");
+                });
+			});
 		</script>
 	</head>
 	<body class='sapUiBody'>

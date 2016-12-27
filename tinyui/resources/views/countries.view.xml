@@ -1,0 +1,55 @@
+<mvc:View class="sapUiSizeCompact view" controllerName="res.controllers.countries" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+	<App id="tinyworld-app" initialPage="page-countries">
+		<pages>
+			<Page id="page-countries" title="Countries">
+				<content>
+					<Panel>
+						<Table id="countriesTable" items="{/countries}">
+							<headerToolbar>
+								<Toolbar>
+									<Button text="Add country" press="addCountry"/>
+								</Toolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em">
+									<Text text="Country Name"/>
+								</Column>
+								<Column width="12em">
+									<Text text="Continent"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Text text="{name}"/>
+										<Text text="{partof_continent}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</Panel>
+					<Panel>
+						<TextArea id="chatInfo" class="chatInfo" rows="10" editable="false" width="100%" value="{/chat}"/>
+						<Input id="chatMsg" width="30%" />
+						<Button id="sendBtn" text="Send"/>
+					</Panel>
+					<Dialog id="addCountryDialog">
+						<content>
+							<Input id="dialogCountryName" placeholder="country name"/>
+							<Select id="dialogContinents" items="{/continents}">
+								<items>
+									<core:Item text="{continent}" key="{continent}"/>
+								</items>
+							</Select>
+						</content>
+						<buttons>
+							<Button type="Accept" text="Save" press="dialogSave"/>
+							<Button text="Cancel" press="dialogCancel"/>
+						</buttons>
+					</Dialog>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

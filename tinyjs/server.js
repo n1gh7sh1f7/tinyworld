@@ -6,7 +6,7 @@ var xsenv = require("sap-xsenv");
 var port  = process.env.PORT || 3000;
 
 var options = xsjs.extend({
-	anonymous : false, // remove to authenticate calls
+	anonymous : false, // set to false to authenticate calls
 	redirectUrl : "/index.xsjs"
 });
 

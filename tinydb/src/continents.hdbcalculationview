@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="tinyworld.tinydb::continents" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" defaultClient="$$client$$" visibility="internal" outputViewType="Projection" calculationScenarioType="TREE_BASED" enforceSqlExecution="false">
+<descriptions defaultDescription="continents"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="tinyworld.tinydb::tinyf.world">
+    <resourceUri>tinyworld.tinydb::tinyf.world</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="tinyworld.tinydb::tinyf.world">
+  <attributes>
+    <attribute id="continent" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="continent"/>
+      <keyMapping schemaName="UFF0WZFJPIIRYREJ_TINYWORLD_HDI_CONTAINER" columnObjectName="tinyworld.tinydb::tinyf.world" columnName="continent"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
